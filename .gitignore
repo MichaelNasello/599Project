@@ -1,7 +1,10 @@
-*__pycache__
+
+*_pycache_
 *.DS_store
 .idea
 
 .ipynb_checkpoints
-data/
-
+data/raw_data
+data/training_data
+data/test_data
+data/val_data
