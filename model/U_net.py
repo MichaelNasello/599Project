@@ -76,7 +76,7 @@ class Decoder(nn.Module):
         return x
 
 class UNet(nn.Module):
-    def __init__(self, enc_chs=(17,32,64,128,256,512), dec_chs=(512,256, 128, 64, 32, 17), num_class=1):
+    def __init__(self, enc_chs=(17,32,64,128,256,512), dec_chs=(512,256, 128, 64, 32, 17),lr=1e-3):
         super().__init__()
         self.encoder     = Encoder(enc_chs)
         self.decoder     = Decoder(dec_chs)
@@ -84,7 +84,7 @@ class UNet(nn.Module):
             nn.Conv1d(32,32, 40, stride=1, padding='same',groups=32, bias=False),
             nn.BatchNorm1d(32),
             nn.ReLU(),
-            nn.Conv1d(32, num_class, 1, stride=1, padding='same', bias=False),
+            nn.Conv1d(32, 1, 1, stride=1, padding='same', bias=False),
             nn.Flatten(),
             nn.Sigmoid()
         )
@@ -96,7 +96,7 @@ class UNet(nn.Module):
         else:
             self.device = torch.device('cpu')
         
-        self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=lr)
         self.loss_fn = nn.BCELoss()
 
 
